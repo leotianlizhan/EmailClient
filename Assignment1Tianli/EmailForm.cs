@@ -26,6 +26,8 @@ namespace Assignment1Tianli
         //default email and password constants
         public const string DEFAULT_EMAIL = "user53080@gmail.com";
         public const string DEFAULT_PASSWORD = "testuser53080";
+        //encryption key, or amount to shift the message content
+        public const int KEY = 5;
         //stores the email being used to send
         private string _email;
         //an addressbook and a messagelist object are created to store a person's information and a sent-message's information
@@ -35,8 +37,10 @@ namespace Assignment1Tianli
         //the index of the message being clicked in the listbox can be correctly used to fetch the message/person
         private List<Message> _displayedMessageBuffer = new List<Message>();
         private List<Person> _displayedContactBuffer = new List<Person>();
+        //stores the current message being read
+        private Message _readMessageBuffer;
         //instantiate smtp client to send gmail messages. ONLY WORKS FOR GMAIL SINCE DIFFERNT EMAILS USES DIFFERENT PORTS
-        protected SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+        private SmtpClient _client = new SmtpClient("smtp.gmail.com", 587);
         
         public EmailForm()
         {
@@ -44,24 +48,25 @@ namespace Assignment1Tianli
             //allow double buffer to increase performance
             this.DoubleBuffered = true;
             //enable ssl encryption for the SMTP client, since gmail requires it
-            client.EnableSsl = true;
+            _client.EnableSsl = true;
+
         }
-        
 
         /// <summary>
         /// Saves message into messagelist
         /// </summary>
-        private void SaveMessage()
+        private void SaveMessage(Message message)
         {
             //saves message into messagelist
-            _messageList.CreateMessage(new Message(_email, txtRecipient.Text, txtSubject.Text, txtContent.Text));
+            _messageList.CreateMessage(message);
             //refresh the listbox since you just added a new message
             RefreshMessageList("");
         }
         /// <summary>
-        /// send message via SMTP server
+        /// Send message via SMTP server
         /// </summary>
-        private void SendMessage()
+        /// <param name="message">Message you want to send</param>
+        private void SendMessage(Message message)
         {
             //first try to see if sending was successful
             try
@@ -69,14 +74,14 @@ namespace Assignment1Tianli
                 //instantiate a new built-in MailMessage object
                 MailMessage msg = new MailMessage();
                 //set the recipient, sender, subject, and body of the message
-                msg.To.Add(new MailAddress(txtRecipient.Text));
-                msg.From = new MailAddress(_email);
-                msg.Subject = txtSubject.Text;
-                msg.Body = txtContent.Text;
+                msg.To.Add(new MailAddress(message.Recipient));
+                msg.From = new MailAddress(message.Sender);
+                msg.Subject = message.Subject;
+                msg.Body = message.Content;
                 //send the email
-                client.Send(msg);
+                _client.Send(msg);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //if an exception occurs, display the exception message
                 MessageBox.Show(ex.Message);
@@ -85,13 +90,14 @@ namespace Assignment1Tianli
                 return;
             }
             //if all is fine, save the message and close the send message panel
-            SaveMessage();
+            SaveMessage(message);
             CloseSendMessage();
         }
 
+
         private void btnSendMessage_Click(object sender, EventArgs e)
         {
-            SendMessage();
+            SendMessage(new Message(_email,txtRecipient.Text,txtSubject.Text,txtContent.Text));
         }
 
         //GUI enhancements, change the "search" text to empty when clicked on searchbox.
@@ -107,7 +113,7 @@ namespace Assignment1Tianli
         /// <summary>
         /// Refresh the message list with new search keywords
         /// </summary>
-        private void RefreshMessageList(string search)
+        public void RefreshMessageList(string search)
         {
             //fetch the messages for display that meets the search criteria and store in the buffer list
             _displayedMessageBuffer = _messageList.GetMessageForDisplay(search);
@@ -171,13 +177,13 @@ namespace Assignment1Tianli
             {
                 //if it is use default email and password
                 _email = DEFAULT_EMAIL;
-                client.Credentials = new NetworkCredential(_email, DEFAULT_PASSWORD);
+                _client.Credentials = new NetworkCredential(_email, DEFAULT_PASSWORD);
             }
             else
             {
                 //if not use the user-inputed gmail and password
                 _email = txtLoginEmail.Text;
-                client.Credentials = new NetworkCredential(_email, txtLoginPassword.Text);
+                _client.Credentials = new NetworkCredential(_email, txtLoginPassword.Text);
             }
             //hide the login interface and show the main interface
             pnlLogin.Visible = false;
@@ -375,20 +381,67 @@ namespace Assignment1Tianli
             //prevent accessing index of -1 since default index with no item for a listbox is -1
             if (lstMessageList.SelectedIndex >= 0)
             {
+                //hide the encrypted or spy message reader button from last time, and change color to normal
+                btnSpyMessageReader.Visible = false;
+                btnEncryptedMessageReader.Visible = false;
+                txtMessageReader.BackColor = Color.White;
+                txtMessageReader.ForeColor = Color.Black;
                 //Fetch the message the user selected and store it in a single message buffer
-                Message messageBuffer = _displayedMessageBuffer[index].ReadMessage();
+                _readMessageBuffer = _displayedMessageBuffer[index].ReadMessage();
                 //show the message reader interface
                 pnlMessageReader.Visible = true;
                 //display the message
-                txtMessageReader.Text = "To: " + messageBuffer.Recipient + " \r\n\r\nSubject: < " + messageBuffer.Subject + " >\r\n\r\nContent: \r\n\r\n" + messageBuffer.Content + "\r\n\r\n" + messageBuffer.DateTime.ToString("G");
-                if(messageBuffer is EncryptedMessage)
-
+                txtMessageReader.Text = "To: " + _readMessageBuffer.Recipient + " \r\n\r\nSubject: < " + _readMessageBuffer.Subject + " >\r\n\r\nContent: \r\n\r\n" + _readMessageBuffer.Content + "\r\n\r\n" + _readMessageBuffer.DateTime.ToString("G");
+                //show a spy message reader button if it's a spy message and it's not yet destroyed
+                if (_readMessageBuffer is SpyMessage && !((SpyMessage)_readMessageBuffer).Destroyed)
+                    btnSpyMessageReader.Visible = true;
+                //show an encrypted message reader button if it's an encrypted message, but not a spy message
+                else if(_readMessageBuffer is EncryptedMessage && !(_readMessageBuffer is SpyMessage))
+                    btnEncryptedMessageReader.Visible = true;
             }
         }
 
         private void btnQuitMessageReader_Click(object sender, EventArgs e)
         {
             pnlMessageReader.Visible = false;
+        }
+
+        private void btnEncryptedMessageReader_Click(object sender, EventArgs e)
+        {
+            //decrypt the message and change the color of the display for coolness factor
+            _readMessageBuffer.DecryptMessage(KEY, txtMessageReader);
+            txtMessageReader.BackColor = Color.Black;
+            txtMessageReader.ForeColor = Color.LimeGreen;
+            btnEncryptedMessageReader.Visible = false;
+        }
+
+        private void btnSendEncryptedMessage_Click(object sender, EventArgs e)
+        {
+            //calls the send message method to send the email, but pass in as an encrypted message
+            SendMessage(new EncryptedMessage(KEY, _email, txtRecipient.Text, txtSubject.Text, txtContent.Text));
+        }
+
+        private void btnSendSpyMessage_Click(object sender, EventArgs e)
+        {
+            //calls the send meessage method to send the email but passed as a spy message
+            SendMessage(new SpyMessage(KEY, _email, txtRecipient.Text, txtSubject.Text, txtContent.Text));
+        }
+
+        private void btnSpyMessageReader_Click(object sender, EventArgs e)
+        {
+            //make messagereader invisible, and make SpyMessageReader visible
+            pnlMessageReader.Visible = false;
+            pnlSpyMessageReader.Visible = true;
+            //decrypt and desplay the message
+            ((SpyMessage)_readMessageBuffer).DecryptMessage(KEY, txtSpyMessageReader, this, lblTimer, pnlSpyMessageReader);
+            //set the search bar to empty string so that when you exit the reader it's consistent
+            txtMessageListSearch.Text = "";
+        }
+
+        private void btnDestroy_Click(object sender, EventArgs e)
+        {
+            //destroy the message
+            ((SpyMessage)_readMessageBuffer).Destroy(this);
         }
     }
 }

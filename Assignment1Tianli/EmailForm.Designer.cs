@@ -46,6 +46,10 @@
             this.lblLoginPassword = new System.Windows.Forms.Label();
             this.lblLoginEmail = new System.Windows.Forms.Label();
             this.pnlMesssageList = new System.Windows.Forms.Panel();
+            this.pnlSpyMessageReader = new System.Windows.Forms.Panel();
+            this.lblTimer = new System.Windows.Forms.Label();
+            this.btnDestroy = new System.Windows.Forms.Button();
+            this.txtSpyMessageReader = new System.Windows.Forms.TextBox();
             this.pnlAddressBook = new System.Windows.Forms.Panel();
             this.pnlAddContact = new System.Windows.Forms.Panel();
             this.btnCancelNewContact = new System.Windows.Forms.Button();
@@ -64,6 +68,8 @@
             this.lstAddressBook = new System.Windows.Forms.ListBox();
             this.txtSearchAddressBook = new System.Windows.Forms.TextBox();
             this.pnlMessageReader = new System.Windows.Forms.Panel();
+            this.btnSpyMessageReader = new System.Windows.Forms.Button();
+            this.btnEncryptedMessageReader = new System.Windows.Forms.Button();
             this.btnQuitMessageReader = new System.Windows.Forms.Button();
             this.txtMessageReader = new System.Windows.Forms.TextBox();
             this.lblSentMail = new System.Windows.Forms.Label();
@@ -74,14 +80,16 @@
             this.lstMessageList = new System.Windows.Forms.ListBox();
             this.txtMessageListSearch = new System.Windows.Forms.TextBox();
             this.pnlCreateMessage = new System.Windows.Forms.Panel();
+            this.btnSendSpyMessage = new System.Windows.Forms.Button();
+            this.btnSendEncryptedMessage = new System.Windows.Forms.Button();
             this.btnSelectFromContact = new System.Windows.Forms.Button();
             this.lstSelectFromContact = new System.Windows.Forms.ListBox();
             this.txtSelectFromContactSearch = new System.Windows.Forms.TextBox();
-            this.btnEncryptedMessageReader = new System.Windows.Forms.Button();
             this.tblCreateMessageLayout.SuspendLayout();
             this.pnlSendAndCancel.SuspendLayout();
             this.pnlLogin.SuspendLayout();
             this.pnlMesssageList.SuspendLayout();
+            this.pnlSpyMessageReader.SuspendLayout();
             this.pnlAddressBook.SuspendLayout();
             this.pnlAddContact.SuspendLayout();
             this.pnlContactInfo.SuspendLayout();
@@ -267,6 +275,7 @@
             // 
             // pnlMesssageList
             // 
+            this.pnlMesssageList.Controls.Add(this.pnlSpyMessageReader);
             this.pnlMesssageList.Controls.Add(this.pnlAddressBook);
             this.pnlMesssageList.Controls.Add(this.pnlMessageReader);
             this.pnlMesssageList.Controls.Add(this.lblSentMail);
@@ -281,6 +290,50 @@
             this.pnlMesssageList.Size = new System.Drawing.Size(804, 497);
             this.pnlMesssageList.TabIndex = 2;
             this.pnlMesssageList.Visible = false;
+            // 
+            // pnlSpyMessageReader
+            // 
+            this.pnlSpyMessageReader.BackColor = System.Drawing.Color.Transparent;
+            this.pnlSpyMessageReader.Controls.Add(this.lblTimer);
+            this.pnlSpyMessageReader.Controls.Add(this.btnDestroy);
+            this.pnlSpyMessageReader.Controls.Add(this.txtSpyMessageReader);
+            this.pnlSpyMessageReader.Location = new System.Drawing.Point(3, 3);
+            this.pnlSpyMessageReader.Name = "pnlSpyMessageReader";
+            this.pnlSpyMessageReader.Size = new System.Drawing.Size(784, 470);
+            this.pnlSpyMessageReader.TabIndex = 4;
+            this.pnlSpyMessageReader.Visible = false;
+            // 
+            // lblTimer
+            // 
+            this.lblTimer.AutoSize = true;
+            this.lblTimer.Location = new System.Drawing.Point(627, 25);
+            this.lblTimer.Name = "lblTimer";
+            this.lblTimer.Size = new System.Drawing.Size(57, 13);
+            this.lblTimer.TabIndex = 3;
+            this.lblTimer.Text = "Time Left: ";
+            // 
+            // btnDestroy
+            // 
+            this.btnDestroy.Location = new System.Drawing.Point(71, 17);
+            this.btnDestroy.Name = "btnDestroy";
+            this.btnDestroy.Size = new System.Drawing.Size(116, 23);
+            this.btnDestroy.TabIndex = 2;
+            this.btnDestroy.Text = "Destroy and Return";
+            this.btnDestroy.UseVisualStyleBackColor = true;
+            this.btnDestroy.Click += new System.EventHandler(this.btnDestroy_Click);
+            // 
+            // txtSpyMessageReader
+            // 
+            this.txtSpyMessageReader.BackColor = System.Drawing.Color.Black;
+            this.txtSpyMessageReader.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSpyMessageReader.ForeColor = System.Drawing.Color.White;
+            this.txtSpyMessageReader.Location = new System.Drawing.Point(71, 55);
+            this.txtSpyMessageReader.Multiline = true;
+            this.txtSpyMessageReader.Name = "txtSpyMessageReader";
+            this.txtSpyMessageReader.ReadOnly = true;
+            this.txtSpyMessageReader.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtSpyMessageReader.Size = new System.Drawing.Size(625, 403);
+            this.txtSpyMessageReader.TabIndex = 1;
             // 
             // pnlAddressBook
             // 
@@ -466,6 +519,7 @@
             // 
             // pnlMessageReader
             // 
+            this.pnlMessageReader.Controls.Add(this.btnSpyMessageReader);
             this.pnlMessageReader.Controls.Add(this.btnEncryptedMessageReader);
             this.pnlMessageReader.Controls.Add(this.btnQuitMessageReader);
             this.pnlMessageReader.Controls.Add(this.txtMessageReader);
@@ -474,6 +528,42 @@
             this.pnlMessageReader.Size = new System.Drawing.Size(668, 464);
             this.pnlMessageReader.TabIndex = 4;
             this.pnlMessageReader.Visible = false;
+            // 
+            // btnSpyMessageReader
+            // 
+            this.btnSpyMessageReader.BackColor = System.Drawing.Color.Black;
+            this.btnSpyMessageReader.FlatAppearance.BorderColor = System.Drawing.Color.Red;
+            this.btnSpyMessageReader.FlatAppearance.BorderSize = 2;
+            this.btnSpyMessageReader.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
+            this.btnSpyMessageReader.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSpyMessageReader.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSpyMessageReader.ForeColor = System.Drawing.Color.SpringGreen;
+            this.btnSpyMessageReader.Location = new System.Drawing.Point(467, 9);
+            this.btnSpyMessageReader.Name = "btnSpyMessageReader";
+            this.btnSpyMessageReader.Size = new System.Drawing.Size(175, 31);
+            this.btnSpyMessageReader.TabIndex = 5;
+            this.btnSpyMessageReader.Text = "Spy Message Reader";
+            this.btnSpyMessageReader.UseVisualStyleBackColor = false;
+            this.btnSpyMessageReader.Visible = false;
+            this.btnSpyMessageReader.Click += new System.EventHandler(this.btnSpyMessageReader_Click);
+            // 
+            // btnEncryptedMessageReader
+            // 
+            this.btnEncryptedMessageReader.BackColor = System.Drawing.Color.Black;
+            this.btnEncryptedMessageReader.FlatAppearance.BorderColor = System.Drawing.Color.Red;
+            this.btnEncryptedMessageReader.FlatAppearance.BorderSize = 2;
+            this.btnEncryptedMessageReader.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
+            this.btnEncryptedMessageReader.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEncryptedMessageReader.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEncryptedMessageReader.ForeColor = System.Drawing.Color.SpringGreen;
+            this.btnEncryptedMessageReader.Location = new System.Drawing.Point(467, 8);
+            this.btnEncryptedMessageReader.Name = "btnEncryptedMessageReader";
+            this.btnEncryptedMessageReader.Size = new System.Drawing.Size(175, 31);
+            this.btnEncryptedMessageReader.TabIndex = 2;
+            this.btnEncryptedMessageReader.Text = "Encrypted Message Reader";
+            this.btnEncryptedMessageReader.UseVisualStyleBackColor = false;
+            this.btnEncryptedMessageReader.Visible = false;
+            this.btnEncryptedMessageReader.Click += new System.EventHandler(this.btnEncryptedMessageReader_Click);
             // 
             // btnQuitMessageReader
             // 
@@ -583,6 +673,8 @@
             // 
             // pnlCreateMessage
             // 
+            this.pnlCreateMessage.Controls.Add(this.btnSendSpyMessage);
+            this.pnlCreateMessage.Controls.Add(this.btnSendEncryptedMessage);
             this.pnlCreateMessage.Controls.Add(this.btnSelectFromContact);
             this.pnlCreateMessage.Controls.Add(this.lstSelectFromContact);
             this.pnlCreateMessage.Controls.Add(this.txtSelectFromContactSearch);
@@ -592,6 +684,38 @@
             this.pnlCreateMessage.Size = new System.Drawing.Size(776, 483);
             this.pnlCreateMessage.TabIndex = 3;
             this.pnlCreateMessage.Visible = false;
+            // 
+            // btnSendSpyMessage
+            // 
+            this.btnSendSpyMessage.BackColor = System.Drawing.Color.Black;
+            this.btnSendSpyMessage.FlatAppearance.BorderColor = System.Drawing.Color.Red;
+            this.btnSendSpyMessage.FlatAppearance.BorderSize = 2;
+            this.btnSendSpyMessage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
+            this.btnSendSpyMessage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSendSpyMessage.ForeColor = System.Drawing.Color.Lime;
+            this.btnSendSpyMessage.Location = new System.Drawing.Point(519, 383);
+            this.btnSendSpyMessage.Name = "btnSendSpyMessage";
+            this.btnSendSpyMessage.Size = new System.Drawing.Size(152, 27);
+            this.btnSendSpyMessage.TabIndex = 71;
+            this.btnSendSpyMessage.Text = "Send Spy Message";
+            this.btnSendSpyMessage.UseVisualStyleBackColor = false;
+            this.btnSendSpyMessage.Click += new System.EventHandler(this.btnSendSpyMessage_Click);
+            // 
+            // btnSendEncryptedMessage
+            // 
+            this.btnSendEncryptedMessage.BackColor = System.Drawing.Color.Black;
+            this.btnSendEncryptedMessage.FlatAppearance.BorderColor = System.Drawing.Color.Red;
+            this.btnSendEncryptedMessage.FlatAppearance.BorderSize = 2;
+            this.btnSendEncryptedMessage.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
+            this.btnSendEncryptedMessage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSendEncryptedMessage.ForeColor = System.Drawing.Color.Lime;
+            this.btnSendEncryptedMessage.Location = new System.Drawing.Point(519, 336);
+            this.btnSendEncryptedMessage.Name = "btnSendEncryptedMessage";
+            this.btnSendEncryptedMessage.Size = new System.Drawing.Size(152, 27);
+            this.btnSendEncryptedMessage.TabIndex = 70;
+            this.btnSendEncryptedMessage.Text = "Send Encrypted Message";
+            this.btnSendEncryptedMessage.UseVisualStyleBackColor = false;
+            this.btnSendEncryptedMessage.Click += new System.EventHandler(this.btnSendEncryptedMessage_Click);
             // 
             // btnSelectFromContact
             // 
@@ -622,30 +746,14 @@
             this.txtSelectFromContactSearch.TextChanged += new System.EventHandler(this.txtSelectFromContactSearch_TextChanged);
             this.txtSelectFromContactSearch.MouseEnter += new System.EventHandler(this.txtSelectFromContactSearch_MouseEnter);
             // 
-            // btnEncryptedMessageReader
-            // 
-            this.btnEncryptedMessageReader.BackColor = System.Drawing.Color.Black;
-            this.btnEncryptedMessageReader.FlatAppearance.BorderColor = System.Drawing.Color.Red;
-            this.btnEncryptedMessageReader.FlatAppearance.BorderSize = 2;
-            this.btnEncryptedMessageReader.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
-            this.btnEncryptedMessageReader.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEncryptedMessageReader.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEncryptedMessageReader.ForeColor = System.Drawing.Color.SpringGreen;
-            this.btnEncryptedMessageReader.Location = new System.Drawing.Point(467, 8);
-            this.btnEncryptedMessageReader.Name = "btnEncryptedMessageReader";
-            this.btnEncryptedMessageReader.Size = new System.Drawing.Size(175, 31);
-            this.btnEncryptedMessageReader.TabIndex = 2;
-            this.btnEncryptedMessageReader.Text = "Encrypted Message Reader";
-            this.btnEncryptedMessageReader.UseVisualStyleBackColor = false;
-            // 
             // EmailForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(828, 497);
             this.Controls.Add(this.pnlMesssageList);
-            this.Controls.Add(this.pnlCreateMessage);
             this.Controls.Add(this.pnlLogin);
+            this.Controls.Add(this.pnlCreateMessage);
             this.Name = "EmailForm";
             this.Text = "Tianli\'s Gmail Email Service";
             this.tblCreateMessageLayout.ResumeLayout(false);
@@ -655,6 +763,8 @@
             this.pnlLogin.PerformLayout();
             this.pnlMesssageList.ResumeLayout(false);
             this.pnlMesssageList.PerformLayout();
+            this.pnlSpyMessageReader.ResumeLayout(false);
+            this.pnlSpyMessageReader.PerformLayout();
             this.pnlAddressBook.ResumeLayout(false);
             this.pnlAddressBook.PerformLayout();
             this.pnlAddContact.ResumeLayout(false);
@@ -721,6 +831,13 @@
         private System.Windows.Forms.TextBox txtMessageReader;
         private System.Windows.Forms.Label lblHelpfulHint;
         private System.Windows.Forms.Button btnEncryptedMessageReader;
+        private System.Windows.Forms.Button btnSendSpyMessage;
+        private System.Windows.Forms.Button btnSendEncryptedMessage;
+        private System.Windows.Forms.Panel pnlSpyMessageReader;
+        private System.Windows.Forms.TextBox txtSpyMessageReader;
+        private System.Windows.Forms.Button btnDestroy;
+        private System.Windows.Forms.Button btnSpyMessageReader;
+        private System.Windows.Forms.Label lblTimer;
 
 
     }

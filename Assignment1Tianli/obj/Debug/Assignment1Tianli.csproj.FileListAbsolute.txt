@@ -16,3 +16,12 @@ G:\CS12\Assignment1Tianli\Assignment1Tianli\obj\Debug\Assignment1Tianli.csprojRe
 G:\CS12\Assignment1Tianli\Assignment1Tianli\obj\Debug\Assignment1Tianli.EmailForm.resources
 G:\CS12\Assignment1Tianli\Assignment1Tianli\obj\Debug\Assignment1Tianli.Properties.Resources.resources
 G:\CS12\Assignment1Tianli\Assignment1Tianli\obj\Debug\Assignment1Tianli.csproj.GenerateResource.Cache
+F:\Assignment1Tianli\Assignment1Tianli\bin\Debug\Assignment1Tianli.exe.config
+F:\Assignment1Tianli\Assignment1Tianli\obj\Debug\Assignment1Tianli.exe
+F:\Assignment1Tianli\Assignment1Tianli\obj\Debug\Assignment1Tianli.pdb
+F:\Assignment1Tianli\Assignment1Tianli\obj\Debug\Assignment1Tianli.csprojResolveAssemblyReference.cache
+F:\Assignment1Tianli\Assignment1Tianli\obj\Debug\Assignment1Tianli.EmailForm.resources
+F:\Assignment1Tianli\Assignment1Tianli\obj\Debug\Assignment1Tianli.Properties.Resources.resources
+F:\Assignment1Tianli\Assignment1Tianli\obj\Debug\Assignment1Tianli.csproj.GenerateResource.Cache
+F:\Assignment1Tianli\Assignment1Tianli\bin\Debug\Assignment1Tianli.exe
+F:\Assignment1Tianli\Assignment1Tianli\bin\Debug\Assignment1Tianli.pdb

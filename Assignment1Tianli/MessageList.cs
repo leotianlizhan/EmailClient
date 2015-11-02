@@ -9,7 +9,7 @@ namespace Assignment1Tianli
     class MessageList
     {
         //create a list to save messages
-        private List<Message> _messageList = new List<Message>();
+        List<Message> _messageList = new List<Message>();
         /// <summary>
         /// Gets or sets the message list
         /// </summary>
@@ -53,6 +53,16 @@ namespace Assignment1Tianli
             }
             //return the resultant list
             return resultsForDisplay;
+        }
+
+        /// <summary>
+        /// Delete the targeted message from the message list
+        /// </summary>
+        /// <param name="target">Target to delete</param>
+        public void DeleteMessage(Message target)
+        {
+            //remove the first matching message
+            ListOfMessage.Remove(target);
         }
     }
 }

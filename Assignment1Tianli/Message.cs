@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Mail;
 
 
 namespace Assignment1Tianli
@@ -15,6 +17,8 @@ namespace Assignment1Tianli
         protected string _subject;
         protected string _content;
         protected DateTime _dateTime;
+        //instantiate smtp client to send gmail messages. ONLY WORKS FOR GMAIL SINCE DIFFERNT EMAILS USES DIFFERENT PORTS
+        protected static SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
 
         /// <summary>
         /// Creates a message with passed in values
@@ -31,7 +35,13 @@ namespace Assignment1Tianli
             Subject = subject;
             Content = content;
             DateTime = DateTime.Now;
+            //enable ssl encryption for the SMTP client, since gmail requires it
+            client.EnableSsl = true;
         }
+
+        //create a parent virtual subprogram because if I don't I don't know how to call decryptmessage on a message
+        public virtual void DecryptMessage(int key, System.Windows.Forms.TextBox display)
+        { }
         /// <summary>
         /// Used when one needs to read the message
         /// </summary>
